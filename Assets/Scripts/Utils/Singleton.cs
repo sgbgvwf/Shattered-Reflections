@@ -2,9 +2,9 @@ using UnityEngine;
 
 /// <summary>
 /// 泛型 MonoBehaviour 单例基类。
-/// 使用方式：public class GameManager : SingletonMono<GameManager> { }
+/// 使用方式：public class GameManager : Singleton<GameManager> { }
 /// </summary>
-public class SingletonMono<T> : MonoBehaviour where T : MonoBehaviour
+public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
     protected virtual bool IsDontDestroyOnLoad => true;
 
