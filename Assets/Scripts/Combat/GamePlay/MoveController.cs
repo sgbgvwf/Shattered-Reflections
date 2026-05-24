@@ -6,7 +6,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-
+using Core;
 
 namespace Combat.Move
 {
@@ -37,13 +37,13 @@ namespace Combat.Move
 
         private void Awake()
         {
-            _inputSystem = InputSystemManager.Instance.controller;
+            _inputSystem = InputSystemManager.Instance.inputSystem;
             _rb = GetComponent<Rigidbody>();
         }
 
         private void Start()
         {
-            InputSystemManager.Instance.RegisterInputController(InputScene.Move, this);
+            InputSystemManager.Instance.RegisterInputController(InputEvent.GamePlay, this);
         }
 
         private void FixedUpdate()
