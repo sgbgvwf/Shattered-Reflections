@@ -97,7 +97,7 @@ namespace Core
             base.OnApplicationQuit();
         }
 
-        protected override  void OnDestroy()
+        protected override void OnDestroy()
         {   
             Clear();
             base.OnDestroy();
