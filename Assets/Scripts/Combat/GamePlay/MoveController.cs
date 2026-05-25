@@ -7,13 +7,16 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using Core;
+using Core.Time;
 
 namespace Combat.Move
 {
     [RequireComponent(typeof(Rigidbody))]
     public class MoveController : MonoBehaviour, IInputController
     {
-        public MovePhysicsDetection physicsDetection;
+        private MovePhysicsDetection _physicsDetection;
+
+        private TimeGroupMember _timeGroup;
 
         public bool moveIsOpen;
 
@@ -37,6 +40,8 @@ namespace Combat.Move
 
         private void Awake()
         {
+            _physicsDetection = GetComponent<MovePhysicsDetection>();
+            _timeGroup = GetComponent<TimeGroupMember>();
             _inputSystem = InputSystemManager.Instance.inputSystem;
             _rb = GetComponent<Rigidbody>();
         }
@@ -57,7 +62,7 @@ namespace Combat.Move
         {
             _inputMove = _inputSystem.GamePlay.Move.ReadValue<Vector2>();
         }
-        
+
         private void OnEnable()
         {
 
@@ -154,7 +159,7 @@ namespace Combat.Move
                 forwardWay.direction_right * localRightForce;
             directionForce.y = 0;
 
-            if (!physicsDetection.isGround)
+            if (!_physicsDetection.isGround)
             {
                 _rb.AddForce(directionForce * moveInJump, ForceMode.Force);
             }
@@ -169,7 +174,7 @@ namespace Combat.Move
         /// </summary>
         private void Jump(InputAction.CallbackContext obj)
         {
-            if (physicsDetection.isGround)
+            if (_physicsDetection.isGround)
             {
                 _rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             }
