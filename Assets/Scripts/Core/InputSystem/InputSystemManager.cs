@@ -8,82 +8,74 @@ namespace Core
     public class InputSystemManager : Singleton<InputSystemManager>
     {
         /// <summary>
-        /// 输入控制器的注册字典
+        /// 已注册的输入
         /// </summary>
         public Dictionary<InputEvent, IInputController> IsRegisterInput = new Dictionary<InputEvent, IInputController>();
-        
+
         /// <summary>
-        /// 输入控制器列表
+        /// 当前输入列表
         /// </summary>
         public List<IInputController> CurrentInput = new List<IInputController>();
 
         /// <summary>
-        /// 全局唯一的输入系统实例
+        /// 全局唯一的输入系统
         /// </summary>
         public InputSystem inputSystem;
 
         /// <summary>
         /// 输入缓冲
         /// </summary>
-        private InputBuffer inputBuffer = new InputBuffer();
+        private InputBuffer inputBuffer = new InputBuffer();   // 现在使用的是增强版 InputBuffer
+
+        [Tooltip("输入缓冲时长")]
+        [SerializeField]private float _bufferDuration = 0.1f;
 
         protected override void Awake()
         {
             base.Awake();
-
             inputSystem = new InputSystem();
-
-
         }
 
-
-
-        private void OnEnable()
-        {
-            inputSystem.Enable();
-        }
-
-        private void OnDisable()
-        {
-            inputSystem.Disable();
-        }
+        private void OnEnable() => inputSystem.Enable();
+        private void OnDisable() => inputSystem.Disable();
 
         private void Update()
         {
             if (CurrentInput.Count == 0)
-            {
                 LoadInputController(InputEvent.GamePlay);
-
-            }
-            inputBuffer.TryExecute();
-        }
-
-
-        public void RegisterInputController(InputEvent inputScene,IInputController inputController)
-        {
-            if(!IsRegisterInput.ContainsKey(inputScene))
-                IsRegisterInput.Add(inputScene, inputController);
+            inputBuffer.TryExecute();   // 每帧尝试执行缓冲
         }
 
         /// <summary>
-        /// 加载输入控制
+        /// 输入控制器注册
         /// </summary>
-        /// <param name="inputScene"></param>
-        public void LoadInputController(InputEvent inputScene)
+        /// <param name="inputEvent">输入事件类型</param>
+        /// <param name="inputController"></param>
+        public void RegisterInputController(InputEvent inputEvent, IInputController inputController)
         {
-            IsRegisterInput.TryGetValue(inputScene, out IInputController inputController);
+            if (!IsRegisterInput.ContainsKey(inputEvent))
+                IsRegisterInput.Add(inputEvent, inputController);
+        }
+
+        /// <summary>
+        /// 输入控制器加载
+        /// </summary>
+        /// <param name="inputEvent"></param>
+        public void LoadInputController(InputEvent inputEvent)
+        {
+            IsRegisterInput.TryGetValue(inputEvent, out IInputController inputController);
             inputController.LoadAction();
-            if(!CurrentInput.Contains(inputController))
+            if (!CurrentInput.Contains(inputController))
                 CurrentInput.Add(inputController);
         }
-        
+
         /// <summary>
-        /// 卸载输入控制
+        /// 输入控制器卸载
         /// </summary>
-        /// <param name="inputScene"></param>
-        public void UnloadInputController(InputEvent inputScene)
+        /// <param name="inputEvent"></param>
+        public void UnloadInputController(InputEvent inputEvent)
         {
-            IsRegisterInput.TryGetValue(inputScene, out IInputController inputController);
+            IsRegisterInput.TryGetValue(inputEvent, out IInputController inputController);
             inputController.UnloadAction();
             if (CurrentInput.Contains(inputController))
                 CurrentInput.Remove(inputController);
@@ -101,26 +93,16 @@ namespace Core
             }
             else
             {
-                inputBuffer.Buffer(action, canExecute);
+                inputBuffer.Buffer(action, canExecute, _bufferDuration);
             }
         }
 
         /// <summary>
-        /// 主动清空缓冲
+        /// 清空缓冲
         /// </summary>
         public void ClearBuffer()
         {
             inputBuffer.Clear();
         }
-
-
-
-
-
-
-
-
-
     }
-
 }

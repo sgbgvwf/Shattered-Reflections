@@ -43,7 +43,8 @@ namespace Combat.Move
 
         private void Start()
         {
-            InputSystemManager.Instance.RegisterInputController(InputEvent.GamePlay, this);
+            RegisterInput(InputEvent.GamePlay, this);
+            
         }
 
         private void FixedUpdate()
@@ -56,6 +57,7 @@ namespace Combat.Move
         {
             _inputMove = _inputSystem.GamePlay.Move.ReadValue<Vector2>();
         }
+        
         private void OnEnable()
         {
 
@@ -64,6 +66,11 @@ namespace Combat.Move
         private void OnDisable()
         {
 
+        }
+
+        public void RegisterInput(InputEvent inputEvent, IInputController inputController)
+        {
+            InputSystemManager.Instance.RegisterInputController(inputEvent, inputController);
         }
 
         public void LoadAction()

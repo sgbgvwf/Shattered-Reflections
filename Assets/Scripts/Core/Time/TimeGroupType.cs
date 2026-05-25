@@ -7,6 +7,5 @@ namespace Core.Time
         Enemy,
         Projectile,
         Environment
-
     }
 }

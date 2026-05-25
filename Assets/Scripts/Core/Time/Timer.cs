@@ -1,9 +1,11 @@
-namespace Core.Timer
+namespace Core.OwnTimer
 {
     using UnityEngine;
     using System;
     using System.Collections.Generic;
     using Object = UnityEngine.Object;
+    using Core.Time;   // 引入 CustomTimeManager
+
     public class Timer
     {
         #region Public Properties/Fields
@@ -51,6 +53,23 @@ namespace Core.Timer
             Timer timer = new Timer(duration, onComplete, onUpdate, isLooped, useRealTime, autoDestroyOwner, customTimeProvider);
             _manager.RegisterTimer(timer);
             return timer;
+        }
+
+        /// <summary>
+        /// 注册一个跟随特定时间组的计时器（时间流逝速度受该组 timeScale 影响）
+        /// </summary>
+        /// <param name="duration">时长（秒，以该组虚拟时间计）</param>
+        /// <param name="group">时间组</param>
+        /// <param name="onComplete">完成回调</param>
+        /// <param name="onUpdate">每帧更新回调（参数为组虚拟时间已过时间）</param>
+        /// <param name="isLooped">是否循环</param>
+        /// <param name="autoDestroyOwner">绑定的MonoBehaviour，对象销毁时计时器自动取消</param>
+        public static Timer RegisterWithGroup(float duration, TimeGroupType group, Action onComplete,
+            Action<float> onUpdate = null, bool isLooped = false, MonoBehaviour autoDestroyOwner = null)
+        {
+            // 使用 CustomTimeManager 提供的组全局虚拟时间作为时间源
+            Func<float> timeProvider = () => CustomTimeManager.Instance.GetGroupVirtualTime(group);
+            return Register(duration, onComplete, onUpdate, isLooped, false, autoDestroyOwner, timeProvider);
         }
 
         public static void Cancel(Timer timer)
@@ -140,10 +159,7 @@ namespace Core.Timer
 
         private readonly MonoBehaviour _autoDestroyOwner;
         private readonly bool _hasAutoDestroyOwner;
-
-        // 自定义时间源：返回当前时间值（例如虚拟时间）
         private readonly Func<float> _customTimeProvider;
-
         private bool HasCustomTimeProvider => _customTimeProvider != null;
 
         #endregion
@@ -173,15 +189,12 @@ namespace Core.Timer
 
         private float GetWorldTime()
         {
-            // 优先使用自定义时间源
             if (HasCustomTimeProvider)
                 return _customTimeProvider();
-
             return UsesRealTime ? Time.realtimeSinceStartup : Time.time;
         }
 
         private float GetFireTime() => _startTime + Duration;
-
         private float GetTimeDelta() => GetWorldTime() - _lastUpdateTime;
 
         private void Update()
@@ -196,7 +209,6 @@ namespace Core.Timer
             }
 
             _lastUpdateTime = GetWorldTime();
-
             _onUpdate?.Invoke(GetTimeElapsed());
 
             if (GetWorldTime() >= GetFireTime())
