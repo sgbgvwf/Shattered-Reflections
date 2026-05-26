@@ -60,8 +60,9 @@ namespace Core
         /// <param name="eventArgs"></param>
         public void Publish<T>(GameEvent evt, T eventArgs)
         {
-            // Debug日志
+#if UNITY_EDITOR
             Debug.Log($"[EventBus] Publish Event: {evt} | Type: {typeof(T).Name} | Data: {JsonUtility.ToJson(eventArgs, true)}");
+#endif
 
             if(!_handlers.TryGetValue(evt, out var list)) return;
 
