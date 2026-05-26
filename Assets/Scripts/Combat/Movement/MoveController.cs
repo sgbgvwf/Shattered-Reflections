@@ -63,16 +63,6 @@ namespace Combat.Move
             _inputMove = _inputSystem.GamePlay.Move.ReadValue<Vector2>();
         }
 
-        private void OnEnable()
-        {
-
-        }
-
-        private void OnDisable()
-        {
-
-        }
-
         public void RegisterInput(InputEvent inputEvent, IInputController inputController)
         {
             InputSystemManager.Instance.RegisterInputController(inputEvent, inputController);
