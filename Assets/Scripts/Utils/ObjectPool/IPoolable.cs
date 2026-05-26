@@ -1,5 +1,4 @@
-// IPoolable.cs
-namespace Core.Pool
+namespace Utils.Pool
 {
     /// <summary>
     /// 可回收对象接口。实现此接口的对象在被回收到池中时会收到回调。

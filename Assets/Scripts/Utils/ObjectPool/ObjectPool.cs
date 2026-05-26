@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Core.Pool
+namespace Utils.Pool
 {
     /// <summary>
     /// 泛型对象池。满足：Get/Recycle、Queue 存储、自动扩容、支持预热、回收回调。

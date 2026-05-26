@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Core.Pool
+namespace Utils.Pool
 {
     /// <summary>
     /// 对象池管理器，负责创建、查找和销毁不同预制体对应的对象池。
