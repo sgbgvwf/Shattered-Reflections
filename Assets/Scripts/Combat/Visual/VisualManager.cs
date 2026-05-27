@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using Combat.Move;
+using Combat;
 
 namespace Combat.Visual
 {
@@ -14,18 +15,20 @@ namespace Combat.Visual
         [SerializeField] private Transform _cameraTransform;
         [SerializeField] private CinemachineFreeLook _freeLock;
         [SerializeField] private CinemachineVirtualCamera _virtualCamera;
-        [SerializeField] private CinemachineTargetGroup _targetGroup;
+
 
         [SerializeField] 
         private enum VisualMode
         {
-            TraceOnly,  // 跟踪玩家
-            TraceGroup, // 跟踪物体组
+            TraceFree,  // 自由视角
+            TraceLock,  // 锁定视角
         }
 
         [Header("摄像机跟随模式")]
         [SerializeField] private VisualMode _visualMode;
         private Dictionary<VisualMode, CinemachineVirtualCameraBase> _cinemachineModeDict = new Dictionary<VisualMode, CinemachineVirtualCameraBase>();
+
+        [SerializeField] private VisualLock _visualLock;
 
         [Header("移动")]
         [SerializeField] private MoveController _moveController;
@@ -34,16 +37,17 @@ namespace Combat.Visual
         [Range(0f, 100f), Tooltip("插值速度")]
         [SerializeField] private float _slerpSpinVelocity = 20f;
 
-        private CinemachineVirtualCameraBase _currentCinemachine;
 
-        private VisualFree visualFree = new VisualFree();
 
-        private VisualLock visualLock = new VisualLock();
+        private VisualFree _visualFree = new VisualFree();
+
+
+
+        private PlayerRotation _playerRotation = new PlayerRotation();
 
         void Start()
         {
             StartRegistCinemachine();
-            SetCinemachine(_visualMode);
         }
 
 
@@ -54,30 +58,30 @@ namespace Combat.Visual
 
         private void StartRegistCinemachine()
         {
-            _cinemachineModeDict?.Add(VisualMode.TraceOnly, _freeLock);
-            _cinemachineModeDict?.Add(VisualMode.TraceGroup, _virtualCamera);
+            _cinemachineModeDict?.Add(VisualMode.TraceFree, _freeLock);
+            _cinemachineModeDict?.Add(VisualMode.TraceLock, _virtualCamera);
         }
 
-        private void SetCinemachine(VisualMode mode)
-        {
-            _visualMode = mode;
-            _currentCinemachine = _cinemachineModeDict[mode];
-        }
 
         private void VisualUpdate()
         {
-            if(_visualMode == VisualMode.TraceOnly)
+            if(_visualMode == VisualMode.TraceFree)
             {
-                visualFree.VisualSpin(
-                _moveController._inputMove.magnitude, 
-                transform,
-                _cameraTransform,
-                _slerpSpinVelocity);
+                if(_moveController._inputMove.magnitude == 0) return;
+
+                _playerRotation.RotationSlerp(transform, _visualFree.DirectionCal(transform, _cameraTransform), _slerpSpinVelocity);
+            }
+            else if(_visualMode == VisualMode.TraceLock)
+            {
+                _playerRotation.RotationSlerp(transform, _visualLock.DirectionAtoB, _slerpSpinVelocity);
             }
         }
 
         //TODO:两种视角的指定切换方法
-
+        private void SetVisualMode(VisualMode visualMode)
+        {
+            _visualMode = visualMode;
+        }
         
 
 

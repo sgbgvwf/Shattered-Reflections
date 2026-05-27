@@ -35,6 +35,13 @@ namespace Combat.Visual
             Quaternion lookRotation = Quaternion.LookRotation(_direction, Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * slerpSpinVelocity); // TODO:自定义时间组还未使用。
         }
+
+        public Vector3 DirectionCal(Transform transform, Transform cameraTransform)
+        {
+            Vector3 dir = transform.position - cameraTransform.position;
+            dir.y = 0;
+            return dir;
+        }
     }
 }
 
