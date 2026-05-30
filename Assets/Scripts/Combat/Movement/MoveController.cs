@@ -12,7 +12,7 @@ using Core.Time;
 namespace Combat.Move
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class MoveController : MonoBehaviour, IInputController
+    public class MoveController : MonoBehaviour
     {
         private MovePhysicsDetection _physicsDetection;
 
@@ -42,15 +42,11 @@ namespace Combat.Move
         {
             _physicsDetection = GetComponent<MovePhysicsDetection>();
             _timeGroup = GetComponent<TimeGroupMember>();
-            _inputSystem = InputSystemManager.Instance.inputSystem;
+            _inputSystem = InputSystemManager.Instance.InputActions;
             _rb = GetComponent<Rigidbody>();
         }
 
-        private void Start()
-        {
-            RegisterInput(InputEvent.GamePlay, this);
-            
-        }
+
 
         private void FixedUpdate()
         {
@@ -63,10 +59,7 @@ namespace Combat.Move
             _inputMove = _inputSystem.GamePlay.Move.ReadValue<Vector2>();
         }
 
-        public void RegisterInput(InputEvent inputEvent, IInputController inputController)
-        {
-            InputSystemManager.Instance.RegisterInputController(inputEvent, inputController);
-        }
+
 
         public void LoadAction()
         {

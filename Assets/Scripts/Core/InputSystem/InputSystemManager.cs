@@ -2,25 +2,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Core
 {
     public class InputSystemManager : Singleton<InputSystemManager>
     {
         /// <summary>
-        /// 已注册的输入
-        /// </summary>
-        public Dictionary<InputEvent, IInputController> IsRegisterInput = new Dictionary<InputEvent, IInputController>();
-
-        /// <summary>
-        /// 当前输入列表
-        /// </summary>
-        public List<IInputController> CurrentInput = new List<IInputController>();
-
-        /// <summary>
         /// 全局唯一的输入系统
         /// </summary>
-        public InputSystem inputSystem;
+        private InputSystem _inputActions;
+
+        public InputSystem InputActions => _inputActions;
 
         /// <summary>
         /// 输入缓冲
@@ -30,56 +23,70 @@ namespace Core
         [Tooltip("输入缓冲时长")]
         [SerializeField]private float _bufferDuration = 0.1f;
 
+        private Vector2 _moveInput;
+
+        public Vector2 MoveInput => _moveInput;
+
+        private bool _interactInput;
+        /// <summary>
+        /// 交互输入
+        /// </summary>
+        public bool InteractPressed => _interactInput;
+
+
+
+
+
+
+
+
+
+
+
+
+
         protected override void Awake()
         {
             base.Awake();
-            inputSystem = new InputSystem();
+            _inputActions = new InputSystem();
         }
 
-        private void OnEnable() => inputSystem.Enable();
-        private void OnDisable() => inputSystem.Disable();
+        private void OnEnable()
+        {
+            _inputActions.Enable();
+
+            _inputActions.GamePlay.Move.performed += _ => _moveInput = _.ReadValue<Vector2>();
+            _inputActions.GamePlay.Move.canceled += _ => _moveInput = Vector2.zero;
+
+            _inputActions.GamePlay.Interact.performed += _ => _interactInput = true;
+            _inputActions.GamePlay.Interact.canceled += _ => _interactInput = false;
+        }
+        private void OnDisable()
+        {
+            _inputActions.GamePlay.Move.performed -= _ => _moveInput = _.ReadValue<Vector2>();
+            _inputActions.GamePlay.Move.canceled -= _ => _moveInput = Vector2.zero;
+
+            _inputActions.GamePlay.Interact.performed -= _ => _interactInput = true;
+            _inputActions.GamePlay.Interact.canceled -= _ => _interactInput = false;
+
+            _inputActions.Disable();
+        }
 
         private void Update()
         {
-            if (CurrentInput.Count == 0)
-                LoadInputController(InputEvent.GamePlay);
             inputBuffer.TryExecute();   // 每帧尝试执行缓冲
         }
 
-        /// <summary>
-        /// 输入控制器注册
-        /// </summary>
-        /// <param name="inputEvent">输入事件类型</param>
-        /// <param name="inputController"></param>
-        public void RegisterInputController(InputEvent inputEvent, IInputController inputController)
+        public void EnableGameInput()
         {
-            if (!IsRegisterInput.ContainsKey(inputEvent))
-                IsRegisterInput.Add(inputEvent, inputController);
+            _inputActions.GamePlay.Enable();
         }
 
-        /// <summary>
-        /// 输入控制器加载
-        /// </summary>
-        /// <param name="inputEvent"></param>
-        public void LoadInputController(InputEvent inputEvent)
+        public void DisableGameInput()
         {
-            IsRegisterInput.TryGetValue(inputEvent, out IInputController inputController);
-            inputController.LoadAction();
-            if (!CurrentInput.Contains(inputController))
-                CurrentInput.Add(inputController);
+            _inputActions.GamePlay.Disable();
         }
 
-        /// <summary>
-        /// 输入控制器卸载
-        /// </summary>
-        /// <param name="inputEvent"></param>
-        public void UnloadInputController(InputEvent inputEvent)
-        {
-            IsRegisterInput.TryGetValue(inputEvent, out IInputController inputController);
-            inputController.UnloadAction();
-            if (CurrentInput.Contains(inputController))
-                CurrentInput.Remove(inputController);
-        }
 
         /// <summary>
         /// 尝试立即执行一个操作，如果当前条件不满足则放入缓冲
