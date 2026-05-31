@@ -7,24 +7,6 @@
             "id": "8d2c3975-b34a-4da7-892c-a7ec6fe402c6",
             "actions": [
                 {
-                    "name": "Jump",
-                    "type": "Button",
-                    "id": "b8bb5198-7904-4ce0-9dfb-449bd04fc251",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Rush",
-                    "type": "Button",
-                    "id": "38ae6154-6224-4998-b0ee-1feb16d74768",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Move",
                     "type": "Value",
                     "id": "fb56c2e3-e6b6-4686-83b6-f2e60cc8f274",
@@ -37,6 +19,78 @@
                     "name": "Interact",
                     "type": "Button",
                     "id": "db9d1c40-b6c3-4d60-8266-b62eb800cf1a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Lock",
+                    "type": "Button",
+                    "id": "42e57e50-c858-45ee-8557-84cd91f4488a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Attack",
+                    "type": "Button",
+                    "id": "9a0b40a2-de2c-45bd-a76f-c248b23f4ed8",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ViewScale",
+                    "type": "Value",
+                    "id": "4bc59fe2-af93-4257-86a9-5765bb20a21b",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "b8bb5198-7904-4ce0-9dfb-449bd04fc251",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Dodge",
+                    "type": "Button",
+                    "id": "38ae6154-6224-4998-b0ee-1feb16d74768",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Skill",
+                    "type": "Button",
+                    "id": "ec59bf80-74a0-4e26-b66b-836ab3563199",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Finisher",
+                    "type": "Button",
+                    "id": "fe8ffe5d-785a-43ec-be8a-e0c56d9fd9ce",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Back",
+                    "type": "Button",
+                    "id": "fe7eedf8-782a-493b-9c98-020b0a3a15e0",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -62,7 +116,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Rush",
+                    "action": "Dodge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a0b88918-8fa2-4501-bad6-df6efdfeeb9b",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dodge",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -179,11 +244,77 @@
                 {
                     "name": "",
                     "id": "b0fbbcbb-3675-429f-bd42-4d2129026d81",
-                    "path": "<Keyboard>/e",
+                    "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "70e447dc-bc47-478b-844b-fc1a3cc8bbbe",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a74b00aa-56a9-4531-96db-e94fa865318b",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lock",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1d29a35c-c657-4ae4-ba23-cf13fb526a43",
+                    "path": "<Mouse>/scroll",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ViewScale",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "646e7007-0e05-483b-9a71-6eab701016ff",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Skill",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3476aaae-eecd-4486-a700-789506804370",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Finisher",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9d94dd4d-d0ec-4099-846d-94f13a8ad4ea",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Back",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

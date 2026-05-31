@@ -1,13 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Xml.Serialization;
-using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using Core;
-using Core.Time;
+using Core.Input;
 
 namespace Combat.Move
 {
@@ -61,23 +55,7 @@ namespace Combat.Move
 
 
 
-        public void LoadAction()
-        {
-            _inputSystem.GamePlay.Jump.started += Jump;
-            _inputSystem.GamePlay.Rush.performed += isRush;
-            _inputSystem.GamePlay.Rush.canceled += noRush;
 
-        // Debug.Log("+Move");
-        }
-
-        public void UnloadAction()
-        {
-            _inputSystem.GamePlay.Jump.started -= Jump;
-            _inputSystem.GamePlay.Rush.performed -= isRush;
-            _inputSystem.GamePlay.Rush.canceled -= noRush;
-
-        // Debug.Log("-Move");
-        }
 
 
         /// <summary>
@@ -183,7 +161,7 @@ namespace Combat.Move
 
 
 
-
+/*
 
         public void OpenController()
         {
@@ -201,6 +179,6 @@ namespace Combat.Move
             moveIsOpen = false;
 
         }
-
+*/
     }
 }

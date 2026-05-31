@@ -93,24 +93,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             ""id"": ""8d2c3975-b34a-4da7-892c-a7ec6fe402c6"",
             ""actions"": [
                 {
-                    ""name"": ""Jump"",
-                    ""type"": ""Button"",
-                    ""id"": ""b8bb5198-7904-4ce0-9dfb-449bd04fc251"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Rush"",
-                    ""type"": ""Button"",
-                    ""id"": ""38ae6154-6224-4998-b0ee-1feb16d74768"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Move"",
                     ""type"": ""Value"",
                     ""id"": ""fb56c2e3-e6b6-4686-83b6-f2e60cc8f274"",
@@ -123,6 +105,78 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""name"": ""Interact"",
                     ""type"": ""Button"",
                     ""id"": ""db9d1c40-b6c3-4d60-8266-b62eb800cf1a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Lock"",
+                    ""type"": ""Button"",
+                    ""id"": ""42e57e50-c858-45ee-8557-84cd91f4488a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""9a0b40a2-de2c-45bd-a76f-c248b23f4ed8"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ViewScale"",
+                    ""type"": ""Value"",
+                    ""id"": ""4bc59fe2-af93-4257-86a9-5765bb20a21b"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""b8bb5198-7904-4ce0-9dfb-449bd04fc251"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dodge"",
+                    ""type"": ""Button"",
+                    ""id"": ""38ae6154-6224-4998-b0ee-1feb16d74768"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Skill"",
+                    ""type"": ""Button"",
+                    ""id"": ""ec59bf80-74a0-4e26-b66b-836ab3563199"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Finisher"",
+                    ""type"": ""Button"",
+                    ""id"": ""fe8ffe5d-785a-43ec-be8a-e0c56d9fd9ce"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Back"",
+                    ""type"": ""Button"",
+                    ""id"": ""fe7eedf8-782a-493b-9c98-020b0a3a15e0"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -148,7 +202,18 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Rush"",
+                    ""action"": ""Dodge"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a0b88918-8fa2-4501-bad6-df6efdfeeb9b"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dodge"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -265,11 +330,77 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""b0fbbcbb-3675-429f-bd42-4d2129026d81"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""70e447dc-bc47-478b-844b-fc1a3cc8bbbe"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a74b00aa-56a9-4531-96db-e94fa865318b"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Lock"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1d29a35c-c657-4ae4-ba23-cf13fb526a43"",
+                    ""path"": ""<Mouse>/scroll"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ViewScale"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""646e7007-0e05-483b-9a71-6eab701016ff"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3476aaae-eecd-4486-a700-789506804370"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Finisher"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9d94dd4d-d0ec-4099-846d-94f13a8ad4ea"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Back"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -280,10 +411,16 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
 }");
         // GamePlay
         m_GamePlay = asset.FindActionMap("GamePlay", throwIfNotFound: true);
-        m_GamePlay_Jump = m_GamePlay.FindAction("Jump", throwIfNotFound: true);
-        m_GamePlay_Rush = m_GamePlay.FindAction("Rush", throwIfNotFound: true);
         m_GamePlay_Move = m_GamePlay.FindAction("Move", throwIfNotFound: true);
         m_GamePlay_Interact = m_GamePlay.FindAction("Interact", throwIfNotFound: true);
+        m_GamePlay_Lock = m_GamePlay.FindAction("Lock", throwIfNotFound: true);
+        m_GamePlay_Attack = m_GamePlay.FindAction("Attack", throwIfNotFound: true);
+        m_GamePlay_ViewScale = m_GamePlay.FindAction("ViewScale", throwIfNotFound: true);
+        m_GamePlay_Jump = m_GamePlay.FindAction("Jump", throwIfNotFound: true);
+        m_GamePlay_Dodge = m_GamePlay.FindAction("Dodge", throwIfNotFound: true);
+        m_GamePlay_Skill = m_GamePlay.FindAction("Skill", throwIfNotFound: true);
+        m_GamePlay_Finisher = m_GamePlay.FindAction("Finisher", throwIfNotFound: true);
+        m_GamePlay_Back = m_GamePlay.FindAction("Back", throwIfNotFound: true);
     }
 
     ~@InputSystem()
@@ -364,10 +501,16 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     // GamePlay
     private readonly InputActionMap m_GamePlay;
     private List<IGamePlayActions> m_GamePlayActionsCallbackInterfaces = new List<IGamePlayActions>();
-    private readonly InputAction m_GamePlay_Jump;
-    private readonly InputAction m_GamePlay_Rush;
     private readonly InputAction m_GamePlay_Move;
     private readonly InputAction m_GamePlay_Interact;
+    private readonly InputAction m_GamePlay_Lock;
+    private readonly InputAction m_GamePlay_Attack;
+    private readonly InputAction m_GamePlay_ViewScale;
+    private readonly InputAction m_GamePlay_Jump;
+    private readonly InputAction m_GamePlay_Dodge;
+    private readonly InputAction m_GamePlay_Skill;
+    private readonly InputAction m_GamePlay_Finisher;
+    private readonly InputAction m_GamePlay_Back;
     /// <summary>
     /// Provides access to input actions defined in input action map "GamePlay".
     /// </summary>
@@ -380,14 +523,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         /// </summary>
         public GamePlayActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "GamePlay/Jump".
-        /// </summary>
-        public InputAction @Jump => m_Wrapper.m_GamePlay_Jump;
-        /// <summary>
-        /// Provides access to the underlying input action "GamePlay/Rush".
-        /// </summary>
-        public InputAction @Rush => m_Wrapper.m_GamePlay_Rush;
-        /// <summary>
         /// Provides access to the underlying input action "GamePlay/Move".
         /// </summary>
         public InputAction @Move => m_Wrapper.m_GamePlay_Move;
@@ -395,6 +530,38 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "GamePlay/Interact".
         /// </summary>
         public InputAction @Interact => m_Wrapper.m_GamePlay_Interact;
+        /// <summary>
+        /// Provides access to the underlying input action "GamePlay/Lock".
+        /// </summary>
+        public InputAction @Lock => m_Wrapper.m_GamePlay_Lock;
+        /// <summary>
+        /// Provides access to the underlying input action "GamePlay/Attack".
+        /// </summary>
+        public InputAction @Attack => m_Wrapper.m_GamePlay_Attack;
+        /// <summary>
+        /// Provides access to the underlying input action "GamePlay/ViewScale".
+        /// </summary>
+        public InputAction @ViewScale => m_Wrapper.m_GamePlay_ViewScale;
+        /// <summary>
+        /// Provides access to the underlying input action "GamePlay/Jump".
+        /// </summary>
+        public InputAction @Jump => m_Wrapper.m_GamePlay_Jump;
+        /// <summary>
+        /// Provides access to the underlying input action "GamePlay/Dodge".
+        /// </summary>
+        public InputAction @Dodge => m_Wrapper.m_GamePlay_Dodge;
+        /// <summary>
+        /// Provides access to the underlying input action "GamePlay/Skill".
+        /// </summary>
+        public InputAction @Skill => m_Wrapper.m_GamePlay_Skill;
+        /// <summary>
+        /// Provides access to the underlying input action "GamePlay/Finisher".
+        /// </summary>
+        public InputAction @Finisher => m_Wrapper.m_GamePlay_Finisher;
+        /// <summary>
+        /// Provides access to the underlying input action "GamePlay/Back".
+        /// </summary>
+        public InputAction @Back => m_Wrapper.m_GamePlay_Back;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -421,18 +588,36 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_GamePlayActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_GamePlayActionsCallbackInterfaces.Add(instance);
-            @Jump.started += instance.OnJump;
-            @Jump.performed += instance.OnJump;
-            @Jump.canceled += instance.OnJump;
-            @Rush.started += instance.OnRush;
-            @Rush.performed += instance.OnRush;
-            @Rush.canceled += instance.OnRush;
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
+            @Lock.started += instance.OnLock;
+            @Lock.performed += instance.OnLock;
+            @Lock.canceled += instance.OnLock;
+            @Attack.started += instance.OnAttack;
+            @Attack.performed += instance.OnAttack;
+            @Attack.canceled += instance.OnAttack;
+            @ViewScale.started += instance.OnViewScale;
+            @ViewScale.performed += instance.OnViewScale;
+            @ViewScale.canceled += instance.OnViewScale;
+            @Jump.started += instance.OnJump;
+            @Jump.performed += instance.OnJump;
+            @Jump.canceled += instance.OnJump;
+            @Dodge.started += instance.OnDodge;
+            @Dodge.performed += instance.OnDodge;
+            @Dodge.canceled += instance.OnDodge;
+            @Skill.started += instance.OnSkill;
+            @Skill.performed += instance.OnSkill;
+            @Skill.canceled += instance.OnSkill;
+            @Finisher.started += instance.OnFinisher;
+            @Finisher.performed += instance.OnFinisher;
+            @Finisher.canceled += instance.OnFinisher;
+            @Back.started += instance.OnBack;
+            @Back.performed += instance.OnBack;
+            @Back.canceled += instance.OnBack;
         }
 
         /// <summary>
@@ -444,18 +629,36 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         /// <seealso cref="GamePlayActions" />
         private void UnregisterCallbacks(IGamePlayActions instance)
         {
-            @Jump.started -= instance.OnJump;
-            @Jump.performed -= instance.OnJump;
-            @Jump.canceled -= instance.OnJump;
-            @Rush.started -= instance.OnRush;
-            @Rush.performed -= instance.OnRush;
-            @Rush.canceled -= instance.OnRush;
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
+            @Lock.started -= instance.OnLock;
+            @Lock.performed -= instance.OnLock;
+            @Lock.canceled -= instance.OnLock;
+            @Attack.started -= instance.OnAttack;
+            @Attack.performed -= instance.OnAttack;
+            @Attack.canceled -= instance.OnAttack;
+            @ViewScale.started -= instance.OnViewScale;
+            @ViewScale.performed -= instance.OnViewScale;
+            @ViewScale.canceled -= instance.OnViewScale;
+            @Jump.started -= instance.OnJump;
+            @Jump.performed -= instance.OnJump;
+            @Jump.canceled -= instance.OnJump;
+            @Dodge.started -= instance.OnDodge;
+            @Dodge.performed -= instance.OnDodge;
+            @Dodge.canceled -= instance.OnDodge;
+            @Skill.started -= instance.OnSkill;
+            @Skill.performed -= instance.OnSkill;
+            @Skill.canceled -= instance.OnSkill;
+            @Finisher.started -= instance.OnFinisher;
+            @Finisher.performed -= instance.OnFinisher;
+            @Finisher.canceled -= instance.OnFinisher;
+            @Back.started -= instance.OnBack;
+            @Back.performed -= instance.OnBack;
+            @Back.canceled -= instance.OnBack;
         }
 
         /// <summary>
@@ -497,20 +700,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     public interface IGamePlayActions
     {
         /// <summary>
-        /// Method invoked when associated input action "Jump" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnJump(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Rush" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnRush(InputAction.CallbackContext context);
-        /// <summary>
         /// Method invoked when associated input action "Move" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
@@ -524,5 +713,61 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnInteract(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Lock" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnLock(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Attack" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnAttack(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ViewScale" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnViewScale(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Jump" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnJump(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Dodge" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDodge(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Skill" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSkill(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Finisher" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnFinisher(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Back" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnBack(InputAction.CallbackContext context);
     }
 }
