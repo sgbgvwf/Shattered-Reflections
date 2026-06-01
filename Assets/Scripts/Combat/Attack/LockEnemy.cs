@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Combat.LockEnemy
+namespace Combat.LockVisual
 {
     public class LockEnemy : MonoBehaviour
     {
@@ -46,11 +46,6 @@ namespace Combat.LockEnemy
             _mainCamera = Camera.main;
             if (_mainCamera != null)
                 _cameraTransform = _mainCamera.transform;
-        }
-
-        void Update()
-        {
-            Debug.Log(DetectBestTarget());
         }
 
         /// <summary> 执行检测，返回评分最优的单个目标 </summary>

@@ -3,14 +3,13 @@ using Cinemachine;
 
 namespace Combat.Visual
 {
-
     /// <summary>
-    /// 3D 战斗锁定摄像机（双目标）—— 最终版本
-    /// - 位置跟随 AB 的相对关系，不受目标 A 自身旋转影响。
+    /// 3D 战斗锁定摄像机（双目标）—— 固定距离版本
+    /// - 摄像机始终保持在玩家后方（远离敌人的外半球），距离固定为 distance。
     /// - 水平方向锁定于 A→B 连线的世界水平投影。
     /// - 竖直方向由焦点 LookAtPoint 决定，并约束在 AB 连线俯仰角 ± VerticalMaxAngle 范围内。
     /// - 所有过渡均平滑处理。
-    /// 
+    ///
     /// 使用前请将虚拟摄像机上的 Body/Aim 设为 Do Nothing。
     /// </summary>
     public class VisualLock : MonoBehaviour
@@ -25,9 +24,14 @@ namespace Combat.Visual
         [Tooltip("要控制的虚拟摄像机（需将 Body 和 Aim 设为 Do Nothing）")]
         public CinemachineVirtualCamera virtualCamera;
 
-        [Header("位置跟随 (基于 AB 相对关系)")]
-        [Tooltip("偏移量释义：x = 左右偏移（沿 world right 方向），y = 高度偏移（世界向上），z = 前后偏移（沿 A 的后方，正值更远）。")]
-        public Vector3 followOffset = new Vector3(0, 2, -5);
+        [Header("距离")]
+        [Tooltip("摄像机到玩家(TargetA)的固定距离")]
+        public float distance = 5f;
+
+        [Header("偏移")]
+        [Tooltip("高度偏移（世界向上）和左右偏移（垂直于 AB 方向）")]
+        public float heightOffset = 2f;
+        public float lateralOffset = 0f;
 
         [Header("视线焦点 (只影响竖直方向的俯仰)")]
         [Tooltip("用于计算俯仰的目标点：TargetA、TargetB 或两者的中点。")]
@@ -75,11 +79,11 @@ namespace Combat.Visual
         {
             if (virtualCamera == null || targetA == null) return;
 
-            // ---------- 预计算所有方向向量（一次计算，多次使用）----------
-            Vector3 dirAtoB;          // 从 A 指向 B 的原始方向（未归一化或零向量处理）
-            Vector3 abHorizontalDir;  // dirAtoB 在水平面上的投影方向
-            Vector3 behindDir;        // A 的后方水平方向（与 abHorizontalDir 相反）
-            Vector3 rightDir;         // 与 behindDir 正交的右侧水平方向
+            // ---------- 预计算所有方向向量 ----------
+            Vector3 dirAtoB;
+            Vector3 abHorizontalDir;
+            Vector3 behindDir;
+            Vector3 rightDir;
 
             bool hasValidB = targetB != null && (targetB.position - targetA.position).sqrMagnitude > 0.001f;
             if (hasValidB)
@@ -88,14 +92,12 @@ namespace Combat.Visual
             }
             else
             {
-                // 无次要目标时，用 A 的前方水平投影作为参考
                 dirAtoB = Vector3.ProjectOnPlane(targetA.forward, Vector3.up);
                 if (dirAtoB == Vector3.zero) dirAtoB = Vector3.forward;
                 else dirAtoB.Normalize();
             }
 
             abHorizontalDir = Vector3.ProjectOnPlane(dirAtoB, Vector3.up);
-            // 如果 AB 完全是垂直的，水平投影可能为零，此时回退到 world forward
             if (abHorizontalDir.sqrMagnitude < 0.001f) abHorizontalDir = Vector3.forward;
             else abHorizontalDir.Normalize();
 
@@ -108,11 +110,8 @@ namespace Combat.Visual
             // ---------- 计算视线焦点 ----------
             Vector3 lookAtPoint = GetLookAtPoint(abHorizontalDir, rightDir, dirAtoB);
 
-            // ---------- 计算摄像机理想位置 ----------
-            Vector3 targetPosition = targetA.position 
-                + behindDir * followOffset.z
-                + Vector3.up * followOffset.y
-                + rightDir * followOffset.x;
+            // ---------- 计算摄像机理想位置（外半球，固定距离）----------
+            Vector3 targetPosition = CalculateFixedDistancePosition(behindDir, rightDir);
 
             // ---------- 位置平滑 ----------
             Transform camTransform = virtualCamera.transform;
@@ -135,6 +134,22 @@ namespace Combat.Visual
         }
 
         /// <summary>
+        /// 在外半球上计算固定距离的摄像机位置：
+        /// 摄像机到玩家 = distance，方向为远离敌人的半球。
+        /// </summary>
+        private Vector3 CalculateFixedDistancePosition(Vector3 behindDir, Vector3 rightDir)
+        {
+            // 先扣除高度和横向分量，剩余的分配给 behind 方向
+            float sqrOffset = heightOffset * heightOffset + lateralOffset * lateralOffset;
+            float behindDist = Mathf.Sqrt(Mathf.Max(0f, distance * distance - sqrOffset));
+
+            return targetA.position
+                + behindDir * behindDist
+                + Vector3.up * heightOffset
+                + rightDir * lateralOffset;
+        }
+
+        /// <summary>
         /// 根据预计算的方向向量获取视线焦点世界坐标。
         /// </summary>
         private Vector3 GetLookAtPoint(Vector3 abHorizontalDir, Vector3 rightDir, Vector3 dirAtoB)
@@ -146,10 +161,9 @@ namespace Combat.Visual
                 _ => targetB != null ? (targetA.position + targetB.position) * 0.5f : targetA.position
             };
 
-            // 偏移基于世界方向，不依赖 A 的旋转
-            return basePoint 
-                + rightDir * lookAtOffset.x 
-                + Vector3.up * lookAtOffset.y 
+            return basePoint
+                + rightDir * lookAtOffset.x
+                + Vector3.up * lookAtOffset.y
                 + dirAtoB * lookAtOffset.z;
         }
 
@@ -159,29 +173,24 @@ namespace Combat.Visual
         /// - 竖直分量受 AB 俯仰约束。
         /// </summary>
         private Vector3 CalculateConstrainedForward(
-            Vector3 cameraPos, Vector3 lookAtPoint, 
+            Vector3 cameraPos, Vector3 lookAtPoint,
             Vector3 horizontalDir, Vector3 dirAtoB)
         {
             if (targetB == null)
             {
-                // 无次要目标时，直接看向焦点
                 return (lookAtPoint - cameraPos).normalized;
             }
 
-            // 计算 AB 连线的俯仰角
             float abPitch = Mathf.Asin(dirAtoB.y) * Mathf.Rad2Deg;
 
-            // 看向焦点的理想俯仰角
             Vector3 dirToLook = (lookAtPoint - cameraPos).normalized;
             float horizontalLength = Vector3.ProjectOnPlane(dirToLook, Vector3.up).magnitude;
             float idealPitch = Mathf.Atan2(dirToLook.y, Mathf.Max(horizontalLength, 0.001f)) * Mathf.Rad2Deg;
 
-            // 限制偏差
             float pitchDiff = idealPitch - abPitch;
             float clampedDiff = Mathf.Clamp(pitchDiff, -verticalMaxAngle, verticalMaxAngle);
             float targetPitch = abPitch + clampedDiff;
 
-            // 重建方向
             float newY = Mathf.Sin(targetPitch * Mathf.Deg2Rad);
             float newHorizontalLength = Mathf.Cos(targetPitch * Mathf.Deg2Rad);
             return (horizontalDir * newHorizontalLength + Vector3.up * newY).normalized;
@@ -211,7 +220,6 @@ namespace Combat.Visual
         {
             if (targetA == null) return;
 
-            // 预先计算方向（可能未运行，所以重复一次计算，不影响性能）
             Vector3 dirAtoB;
             bool hasValidB = targetB != null && (targetB.position - targetA.position).sqrMagnitude > 0.001f;
             if (hasValidB)
@@ -231,11 +239,7 @@ namespace Combat.Visual
             Vector3 rightDir = Vector3.Cross(Vector3.up, behindDir).normalized;
 
             Vector3 lookAtPoint = GetLookAtPoint(abHorizontalDir, rightDir, dirAtoB);
-
-            Vector3 idealCamPos = targetA.position 
-                + behindDir * followOffset.z 
-                + Vector3.up * followOffset.y 
-                + rightDir * followOffset.x;
+            Vector3 idealCamPos = CalculateFixedDistancePosition(behindDir, rightDir);
 
             // 目标和 AB 线
             Gizmos.color = Color.green;
@@ -258,6 +262,10 @@ namespace Combat.Visual
             Gizmos.color = Color.white;
             Gizmos.DrawWireSphere(idealCamPos, 0.25f);
             Gizmos.DrawLine(targetA.position, idealCamPos);
+
+            // 外半球固定距离示意
+            Gizmos.color = new Color(1f, 0.6f, 0f, 0.3f);
+            Gizmos.DrawWireSphere(targetA.position, distance);
 
             // 水平锁定方向
             Gizmos.color = Color.magenta;
