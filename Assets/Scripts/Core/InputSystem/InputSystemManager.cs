@@ -53,7 +53,7 @@ namespace Core.Input
         private bool _backInput;
         public bool BackInput => _backInput;
 
-        // 公开的事件
+        // 按下事件
         public event Action OnInteractPressed;
         public event Action OnLockPressed;
         public event Action OnAttackPressed;
@@ -62,6 +62,16 @@ namespace Core.Input
         public event Action OnSkillPressed;
         public event Action OnFinisherPressed;
         public event Action OnBackPressed;
+
+        // 松开事件
+        public event Action OnInteractReleased;
+        public event Action OnLockReleased;
+        public event Action OnAttackReleased;
+        public event Action OnJumpReleased;
+        public event Action OnDodgeReleased;
+        public event Action OnSkillReleased;
+        public event Action OnFinisherReleased;
+        public event Action OnBackReleased;
 
         protected override void Awake()
         {
@@ -139,13 +149,21 @@ namespace Core.Input
             _inputActions.Disable();
 
             OnInteractPressed = null;
+            OnInteractReleased = null;
             OnLockPressed = null;
+            OnLockReleased = null;
             OnAttackPressed = null;
+            OnAttackReleased = null;
             OnJumpPressed = null;
+            OnJumpReleased = null;
             OnDodgePressed = null;
+            OnDodgeReleased = null;
             OnSkillPressed = null;
+            OnSkillReleased = null;
             OnFinisherPressed = null;
+            OnFinisherReleased = null;
             OnBackPressed = null;
+            OnBackReleased = null;
         }
 
         private void Update()
@@ -191,21 +209,33 @@ namespace Core.Input
             _interactInput = true;
             OnInteractPressed?.Invoke();
         }
-        private void OnInteractCanceled(InputAction.CallbackContext ctx) => _interactInput = false;
+        private void OnInteractCanceled(InputAction.CallbackContext ctx)
+        {
+            _interactInput = false;
+            OnInteractReleased?.Invoke();
+        }
 
         private void OnLockPerformed(InputAction.CallbackContext ctx)
         {
             _lockInput = true;
             OnLockPressed?.Invoke();
         }
-        private void OnLockCanceled(InputAction.CallbackContext ctx) => _lockInput = false;
+        private void OnLockCanceled(InputAction.CallbackContext ctx)
+        {
+            _lockInput = false;
+            OnLockReleased?.Invoke();
+        }
 
         private void OnAttackPerformed(InputAction.CallbackContext ctx)
         {
             _attackInput = true;
             OnAttackPressed?.Invoke();
         }
-        private void OnAttackCanceled(InputAction.CallbackContext ctx) => _attackInput = false;
+        private void OnAttackCanceled(InputAction.CallbackContext ctx)
+        {
+            _attackInput = false;
+            OnAttackReleased?.Invoke();
+        }
 
         private void OnViewScalePerformed(InputAction.CallbackContext ctx) => _viewScaleInput = ctx.ReadValue<Vector2>();
         private void OnViewScaleCanceled(InputAction.CallbackContext ctx) => _viewScaleInput = Vector2.zero;
@@ -215,35 +245,55 @@ namespace Core.Input
             _jumpInput = true;
             OnJumpPressed?.Invoke();
         }
-        private void OnJumpCanceled(InputAction.CallbackContext ctx) => _jumpInput = false;
+        private void OnJumpCanceled(InputAction.CallbackContext ctx)
+        {
+            _jumpInput = false;
+            OnJumpReleased?.Invoke();
+        }
 
         private void OnDodgePerformed(InputAction.CallbackContext ctx)
         {
             _dodgeInput = true;
             OnDodgePressed?.Invoke();
         }
-        private void OnDodgeCanceled(InputAction.CallbackContext ctx) => _dodgeInput = false;
+        private void OnDodgeCanceled(InputAction.CallbackContext ctx)
+        {
+            _dodgeInput = false;
+            OnDodgeReleased?.Invoke();
+        }
 
         private void OnSkillPerformed(InputAction.CallbackContext ctx)
         {
             _skillInput = true;
             OnSkillPressed?.Invoke();
         }
-        private void OnSkillCanceled(InputAction.CallbackContext ctx) => _skillInput = false;
+        private void OnSkillCanceled(InputAction.CallbackContext ctx)
+        {
+            _skillInput = false;
+            OnSkillReleased?.Invoke();
+        }
 
         private void OnFinisherPerformed(InputAction.CallbackContext ctx)
         {
             _finisherInput = true;
             OnFinisherPressed?.Invoke();
         }
-        private void OnFinisherCanceled(InputAction.CallbackContext ctx) => _finisherInput = false;
+        private void OnFinisherCanceled(InputAction.CallbackContext ctx)
+        {
+            _finisherInput = false;
+            OnFinisherReleased?.Invoke();
+        }
 
         private void OnBackPerformed(InputAction.CallbackContext ctx)
         {
             _backInput = true;
             OnBackPressed?.Invoke();
         }
-        private void OnBackCanceled(InputAction.CallbackContext ctx) => _backInput = false;
+        private void OnBackCanceled(InputAction.CallbackContext ctx)
+        {
+            _backInput = false;
+            OnBackReleased?.Invoke();
+        }
 
         #endregion
     }
