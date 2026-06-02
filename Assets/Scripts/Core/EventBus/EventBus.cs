@@ -77,6 +77,56 @@ namespace Core
         }
 
         /// <summary>
+        /// 订阅无参事件
+        /// </summary>
+        public void Subscribe(GameEvent evt, Action handler)
+        {
+            if (_handlers.TryGetValue(evt, out var list))
+            {
+                list.Add(handler);
+            }
+            else
+            {
+                _handlers[evt] = new List<Delegate> { handler };
+            }
+        }
+
+        /// <summary>
+        /// 取消订阅无参事件
+        /// </summary>
+        public void Unsubscribe(GameEvent evt, Action handler)
+        {
+            if (_handlers.TryGetValue(evt, out var list))
+            {
+                list.Remove(handler);
+                if (list.Count == 0)
+                {
+                    _handlers.Remove(evt);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 发布无参事件
+        /// </summary>
+        public void Publish(GameEvent evt)
+        {
+#if UNITY_EDITOR
+            Debug.Log($"[EventBus] Publish Event: {evt}");
+#endif
+
+            if (!_handlers.TryGetValue(evt, out var list)) return;
+
+            Delegate[] handlers = list.ToArray();
+
+            foreach (var del in handlers)
+            {
+                var action = del as Action;
+                action?.Invoke();
+            }
+        }
+
+        /// <summary>
         /// 清理所有订阅名单
         /// </summary>
         public void Clear()

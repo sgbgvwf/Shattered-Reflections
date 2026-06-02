@@ -8,7 +8,7 @@ namespace Core
         PlayerDamagedEvent,
         BossPhaseChangedEvent,
         ItemAcquiredEvent,
-
+        SceneLoadedEvent,
     }
 }
 
