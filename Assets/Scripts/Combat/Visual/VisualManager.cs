@@ -48,8 +48,8 @@ namespace Combat.Visual
         private float[] _freeInitRadius = new float[3];
         private float[] _freeInitHeight = new float[3];
 
-        // VisualLock 独立缩放状态
-        private float _lockCurrent, _lockTarget, _lockVelocity, _lockHeightRatio;
+        // VisualLock 独立缩放状态（仅距离）
+        private float _lockCurrent, _lockTarget, _lockVelocity;
 
         private VisualFree _visualFree = new VisualFree();
         private PlayerRotation _playerRotation = new PlayerRotation();
@@ -68,7 +68,7 @@ namespace Combat.Visual
             if (_visualLock != null)
             {
                 _lockCurrent = _visualLock.distance;
-                _lockHeightRatio = _visualLock.distance > 0f ? _visualLock.heightOffset / _visualLock.distance : 1f;
+                // 注意：不再需要计算高度比例，因为角度偏移是固定的
             }
             _freeTarget = _freeCurrent;
             _lockTarget = _lockCurrent;
@@ -116,6 +116,43 @@ namespace Combat.Visual
         {
             bool isFree = mode == VisualMode.TraceFree;
 
+            // 切换到自由视角时，将 FreeLook 轴值拉到 VisualLock 相机附近
+            if (isFree && _freeLock != null && _visualLock != null && _virtualCamera != null)
+            {
+                Vector3 toCam = _virtualCamera.transform.position - transform.position;
+                if (toCam.sqrMagnitude > 0.001f)
+                {
+                    Vector3 toCamH = Vector3.ProjectOnPlane(toCam, Vector3.up).normalized;
+                    Vector3 fwdH = Vector3.ProjectOnPlane(transform.forward, Vector3.up);
+                    if (fwdH.sqrMagnitude < 0.001f) fwdH = Vector3.forward;
+                    fwdH.Normalize();
+
+                    float x = Vector3.SignedAngle(-fwdH, toCamH, Vector3.up);
+                    if (x < 0f) x += 360f;
+
+                    float targetH = toCam.y;
+                    float bottomH = _freeInitHeight[0];
+                    float midH = _freeInitHeight[1];
+                    float topH = _freeInitHeight[2];
+
+                    float y;
+                    if (targetH >= midH)
+                    {
+                        float t = Mathf.Approximately(topH, midH) ? 0f : (targetH - midH) / (topH - midH);
+                        y = 0.5f + 0.5f * t;
+                    }
+                    else
+                    {
+                        float t = Mathf.Approximately(midH, bottomH) ? 0f : (targetH - bottomH) / (midH - bottomH);
+                        y = 0.5f * t;
+                    }
+                    y = Mathf.Clamp(y, 0f, 1f);
+
+                    _freeLock.m_XAxis.Value = x;
+                    _freeLock.m_YAxis.Value = y;
+                }
+            }
+
             if (_freeLock != null)
                 _freeLock.gameObject.SetActive(isFree);
 
@@ -152,8 +189,9 @@ namespace Combat.Visual
                     _lockTarget = Mathf.Clamp(_lockTarget, _lockMinDistance, _lockMaxDistance);
                 }
                 _lockCurrent = Mathf.SmoothDamp(_lockCurrent, _lockTarget, ref _lockVelocity, _zoomSmoothTime);
+                // 仅更新距离，角度偏移保持不变
                 _visualLock.distance = _lockCurrent;
-                _visualLock.heightOffset = _lockCurrent * _lockHeightRatio;
+                // 移除对 heightOffset 和 lateralOffset 的赋值
             }
         }
 
