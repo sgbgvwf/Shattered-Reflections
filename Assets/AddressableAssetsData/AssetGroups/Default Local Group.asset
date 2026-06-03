@@ -17,6 +17,11 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: d606106458a30d942a52e59905a1806c
   m_SerializeEntries:
+  - m_GUID: 02a016bb527847b44812e78efdd3be30
+    m_Address: Assets/GameData/ScriptableObjects/Scene/StartScene.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 32d6a64f92fc75a47a6b6b05db606ace
     m_Address: Assets/Scenes/StartScene.unity
     m_ReadOnly: 0
@@ -29,6 +34,21 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 762422001aba0f244a87d143cac82d86
     m_Address: Assets/Scenes/Persistence.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8604e310c7b30bc4ca71c93952988532
+    m_Address: Assets/GameData/ScriptableObjects/Scene/Persistence.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a9d21e53305ea164c89894d6a185529a
+    m_Address: Assets/GameData/ScriptableObjects/SceneLoadChannel.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c0b58b495618d7649b1ceece04eb84be
+    m_Address: Assets/GameData/ScriptableObjects/Scene/Combat_Prototype.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

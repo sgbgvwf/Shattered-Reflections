@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 namespace GameSO
 {
-    [CreateAssetMenu(fileName = "GameScene", menuName = "Scene/GameSceneSO")]
+    [CreateAssetMenu(fileName = "GameScene", menuName = "SceneLoad/GameSceneSO")]
     public class GameSceneSO : ScriptableObject
     {
         public AssetReference sceneReference;   // Addressable 场景引用
