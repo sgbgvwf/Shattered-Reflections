@@ -16,7 +16,7 @@ namespace GameSystem.SceneLoad
         }
         public SceneOperationType operationType;
 
-        [Header("全量模式：要加载的场景")]
+        [Header("全量模式：卸载全部并加载要加载的场景")]
         public List<GameSceneSO> scenesToLoadAfterUnloadAll;
 
         [Header("自定义模式：卸载列表")]
@@ -24,7 +24,7 @@ namespace GameSystem.SceneLoad
         [Header("自定义模式：加载列表")]
         public List<GameSceneSO> scenesToLoad;
 
-        [Header("玩家目标位置")]
+        [Header("加载后的玩家目标位置")]
         public Vector2 playerTargetPosition;
 
         public void ExecuteSceneOperation()

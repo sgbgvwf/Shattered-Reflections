@@ -28,8 +28,12 @@ namespace GameSystem.SceneLoad
         {
             if (firstLoadScene != null)
             {
-                // 初始加载：只加载，不卸载任何东西（使用全量模式但卸载列表为空？直接调用加载协程）
-                StartCoroutine(LoadScenesCoroutine(new List<GameSceneSO> { firstLoadScene }, Vector2.zero, true));
+                isLoading = true;
+                StartCoroutine(LoadScenesCoroutine(new List<GameSceneSO> { firstLoadScene }, Vector2.zero, true, () =>
+                {
+                    isLoading = false;
+                    EventBus.Instance.Publish(afterSceneLoadedEvent);
+                }));
             }
         }
 
@@ -56,19 +60,21 @@ namespace GameSystem.SceneLoad
         {
             isLoading = true;
 
-            // 卸载所有已加载的场景
             foreach (var scene in allLoadedScenes)
             {
                 if (scene != null)
-                    yield return scene.sceneReference.UnLoadScene();
+                {
+                    var op = scene.sceneReference.UnLoadScene();
+                    yield return op;
+                }
             }
             allLoadedScenes.Clear();
 
-            // 加载新场景
-            yield return LoadScenesCoroutine(scenesToLoad, cameraPos, true);
-
-            isLoading = false;
-            EventBus.Instance.Publish(afterSceneLoadedEvent);
+            yield return LoadScenesCoroutine(scenesToLoad, cameraPos, true, () =>
+            {
+                isLoading = false;
+                EventBus.Instance.Publish(afterSceneLoadedEvent);
+            });
         }
 
         // 自定义增量操作
@@ -82,28 +88,35 @@ namespace GameSystem.SceneLoad
         {
             isLoading = true;
 
-            // 卸载指定场景
             if (scenesToUnload != null)
             {
                 foreach (var scene in scenesToUnload)
                 {
                     if (scene == null || !allLoadedScenes.Contains(scene)) continue;
-                    yield return scene.sceneReference.UnLoadScene();
-                    allLoadedScenes.Remove(scene);
+                    var op = scene.sceneReference.UnLoadScene();
+                    yield return op;
+
+                    if (op.IsValid() && op.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
+                    {
+                        allLoadedScenes.Remove(scene);
+                    }
                 }
             }
 
-            // 加载指定场景
-            yield return LoadScenesCoroutine(scenesToLoad, cameraPos, true);
-
-            isLoading = false;
-            EventBus.Instance.Publish(afterSceneLoadedEvent);
+            yield return LoadScenesCoroutine(scenesToLoad, cameraPos, true, () =>
+            {
+                isLoading = false;
+                EventBus.Instance.Publish(afterSceneLoadedEvent);
+            });
         }
 
-        // 通用加载协程（可选是否设置相机位置）
-        private IEnumerator LoadScenesCoroutine(List<GameSceneSO> scenesToLoad, Vector2 cameraPos, bool setCamera)
+        private IEnumerator LoadScenesCoroutine(List<GameSceneSO> scenesToLoad, Vector2 cameraPos, bool setCamera, System.Action onComplete = null)
         {
-            if (scenesToLoad == null) yield break;
+            if (scenesToLoad == null)
+            {
+                onComplete?.Invoke();
+                yield break;
+            }
 
             foreach (var scene in scenesToLoad)
             {
@@ -112,7 +125,11 @@ namespace GameSystem.SceneLoad
 
                 var op = scene.sceneReference.LoadSceneAsync(LoadSceneMode.Additive, true);
                 yield return op;
-                allLoadedScenes.Add(scene);
+
+                if (op.IsValid() && op.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
+                {
+                    allLoadedScenes.Add(scene);
+                }
             }
 
             if (setCamera && playerTransform != null)
@@ -122,6 +139,8 @@ namespace GameSystem.SceneLoad
                 pos.y = cameraPos.y;
                 playerTransform.position = pos;
             }
+
+            onComplete?.Invoke();
         }
     }
 }
